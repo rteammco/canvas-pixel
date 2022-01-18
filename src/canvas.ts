@@ -1,5 +1,3 @@
-// const CANVAS_ID = 'canvas-pixel-id-0987654321';
-
 const canvasStyleCSS = `
   height: 100%;
   left: 0;

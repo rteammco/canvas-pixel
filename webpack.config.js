@@ -13,8 +13,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'build_web'),
-    filename: 'pixel-canvas.js',
-    library: 'pixelCanvas',
+    filename: 'canvas-pixel.js',
+    library: 'canvasPixel',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
