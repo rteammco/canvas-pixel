@@ -72,10 +72,18 @@ export default class Canvas {
   }
 
   public startAnimation(): void {
+    this.stopAnimation();
+    this.lastFrameTime = Date.now();
+    this.animateFrame();
+  }
+
+  public stopAnimation(): void {
     if (this.animationFrameRequestId != null) {
       cancelAnimationFrame(this.animationFrameRequestId);
     }
-    this.lastFrameTime = Date.now();
-    this.animateFrame();
+  }
+
+  public clear(): void {
+    this.particles = [];
   }
 }

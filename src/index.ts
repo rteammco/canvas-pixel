@@ -16,9 +16,9 @@ export function setSpeed(speed: number): void {
 }
 
 export function stop(): void {
-  // TODO
+  canvas?.stopAnimation();
 }
 
 export function clear(): void {
-  // TODO
+  canvas?.clear();
 }
