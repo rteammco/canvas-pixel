@@ -1,5 +1,3 @@
-import testFunction from '../build/index.js';
-
 const CANVAS_ID = 'canvas-pixel-id-0987654321';
 
 const canvasStyleCSS = `
@@ -78,7 +76,6 @@ function initializeCanvas() {
 
   animationState.lastAnimationTime = Date.now();
   requestAnimationFrame(animateFrame);
-  alert(testFunction());
 }
 
 window.onload = initializeCanvas;
