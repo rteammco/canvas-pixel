@@ -1,4 +1,6 @@
-## Notes - Package
+# Notes - Setting Up
+
+## Exporting for Node
 
 1. `npm init -y`
 2. Add "node_modules" and "build" to `.gitignore`
@@ -8,7 +10,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "es6",
+    "module": "commonjs",
     "declaration": true,
     "outDir": "./build",
     "strict": true
@@ -37,5 +39,14 @@ export default function testFunction(): string {
   ...
 ```
 8. `npm run build`
-9. Import in a script, `import testFunction from './build/index.js';` or use in HTML script tag, `<script type="module" src="build/index.js"></script>`.
-10. Use `live-server` (`npm install live-server -g`) to test `index.html`
+
+## Exporting for Vanilla HTML/JS
+
+This requires using webpack, since `tsc` can't compile into a single file.
+
+1. `npm install -g webpack`
+2. `npm install -g webpack-cli`
+3. Create the `webpack.config.js` file.
+4. Import into HTML using a script tag, `<script src="build_web/pixel-canvas.js"></script>`.
+5. Use `live-server` (`npm install live-server -g`) to test `index.html`
+6. There's a global object called `pixelCanvas` that has access to the functions in JavaScript on the web page.

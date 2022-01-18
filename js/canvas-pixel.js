@@ -1,3 +1,8 @@
+import * as yooo from '../build_web/pixel-canvas.js';
+// import { start } from '../dist/bundle.js';
+console.log(yooo, yooo.start);
+console.log(pixelCanvas);
+
 const CANVAS_ID = 'canvas-pixel-id-0987654321';
 
 const canvasStyleCSS = `
