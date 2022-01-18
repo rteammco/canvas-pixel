@@ -5,7 +5,9 @@ export type AnimationEffect = 'rain' | 'snow';
 let canvas: Canvas | null = null;
 
 export function start(effect: AnimationEffect = 'rain'): void {
-  canvas = new Canvas();
+  if (canvas == null) {
+    canvas = new Canvas();
+  }
   canvas.startAnimation();
 }
 

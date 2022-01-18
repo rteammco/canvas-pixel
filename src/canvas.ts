@@ -91,7 +91,7 @@ export default class Canvas {
     this.canvas.height = document.body.clientHeight;
     this.updateAnimationState();
     this.renderFrame();
-    this.animationFrameRequestId = requestAnimationFrame(this.animateFrame);
+    this.animationFrameRequestId = requestAnimationFrame(this.animateFrame.bind(this));
   }
 
   public startAnimation(): void {
