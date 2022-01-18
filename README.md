@@ -1,6 +1,10 @@
-# Notes - Setting Up
+# Canvas Pixel
 
-## Exporting for Node
+Documentation: TODO
+
+## Notes (TODO: clean up)
+
+### Exporting for Node Package
 
 1. `npm init -y`
 2. Add "node_modules" and "build" to `.gitignore`
@@ -33,20 +37,19 @@ export default function testFunction(): string {
   ...
   "scripts": {
     ...,
-    "build": "tsc --build",
-    "clean": "tsc --build --clean"
+    "build": "tsc --build"
   },
   ...
 ```
 8. `npm run build`
 
-## Exporting for Vanilla HTML/JS
+### Exporting for Web Browser
 
 This requires using webpack, since `tsc` can't compile into a single file.
 
 1. `npm install -g webpack`
 2. `npm install -g webpack-cli`
 3. Create the `webpack.config.js` file.
-4. Import into HTML using a script tag, `<script src="build_web/pixel-canvas.js"></script>`.
+4. Import into HTML using a script tag, `<script src="build_web/canvas-pixel.js"></script>`.
 5. Use `live-server` (`npm install live-server -g`) to test `index.html`
-6. There's a global object called `pixelCanvas` that has access to the functions in JavaScript on the web page.
+6. There's a global object called `canvasPixel` that has access to the functions in JavaScript on the web page.
