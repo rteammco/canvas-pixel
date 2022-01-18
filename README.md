@@ -37,4 +37,5 @@ export default function testFunction(): string {
   ...
 ```
 8. `npm run build`
-9. Import in a script, `import testFunction from './build/index.js';` or use in HTML script tag, `<script type="module" src="build/index.js"></script>`
+9. Import in a script, `import testFunction from './build/index.js';` or use in HTML script tag, `<script type="module" src="build/index.js"></script>`.
+10. Use `live-server` (`npm install live-server -g`) to test `index.html`
