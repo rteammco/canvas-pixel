@@ -1,3 +1,8 @@
+import { Particle } from './particles/particle';
+import RainParticle from './particles/RainParticle';
+
+const NUM_PARTICLES = 1000;
+
 const canvasStyleCSS = `
   height: 100%;
   left: 0;
@@ -8,21 +13,13 @@ const canvasStyleCSS = `
   z-index: 1000;
 ` as const;
 
-interface AnimationState {
-  lastFrameTime: number;
-  relativeX: number;
-  relativeY: number;
-  xDirection: number;
-  xSpeed: number;
-  yDirection: number;
-  ySpeed: number;
-}
-
 export default class Canvas {
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D | null;
+  private lastFrameTime: number;
   private animationFrameRequestId: number | null;
-  private animationState: AnimationState;
+
+  private particles: Particle[];
 
   constructor() {
     this.canvas = document.createElement('canvas');
@@ -31,44 +28,29 @@ export default class Canvas {
     document.body.append(this.canvas);
 
     this.context = this.canvas.getContext('2d');
+    this.lastFrameTime = 0;
     this.animationFrameRequestId = null;
 
-    this.animationState = {
-      lastFrameTime: 0,
-      relativeX: 0,
-      relativeY: 0,
-      xDirection: 1,
-      xSpeed: 0.0007,
-      yDirection: 1,
-      ySpeed: 0.0004,
-    };
+    this.particles = [];
   }
 
   private updateAnimationState(): void {
     const timeNow = Date.now();
-    const timeDelta = timeNow - this.animationState.lastFrameTime;
-    this.animationState.lastFrameTime = timeNow;
+    const timeDelta = timeNow - this.lastFrameTime;
+    this.lastFrameTime = timeNow;
 
-    if (this.animationState.relativeX > 1) {
-      this.animationState.relativeX = 1;
-      this.animationState.xDirection = -1;
-    } else if (this.animationState.relativeX < 0) {
-      this.animationState.relativeX = 0;
-      this.animationState.xDirection = 1;
+    const updatedParticles: Particle[] = [];
+    for (let i = 0; i < this.particles.length; i++) {
+      const particle = this.particles[i];
+      particle.update(timeDelta);
+      if (particle.isAlive()) {
+        updatedParticles.push(particle);
+      }
     }
-
-    if (this.animationState.relativeY > 1) {
-      this.animationState.relativeY = 1;
-      this.animationState.yDirection = -1;
-    } else if (this.animationState.relativeY < 0) {
-      this.animationState.relativeY = 0;
-      this.animationState.yDirection = 1;
+    for (let i = updatedParticles.length; i < NUM_PARTICLES; i++) {
+      updatedParticles.push(new RainParticle());
     }
-
-    this.animationState.relativeX +=
-      this.animationState.xSpeed * timeDelta * this.animationState.xDirection;
-    this.animationState.relativeY +=
-      this.animationState.ySpeed * timeDelta * this.animationState.yDirection;
+    this.particles = updatedParticles;
   }
 
   private renderFrame(): void {
@@ -76,12 +58,9 @@ export default class Canvas {
       return;
     }
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.context.beginPath();
-    const pixelX = this.animationState.relativeX * this.canvas.width;
-    const pixelY = this.animationState.relativeY * this.canvas.height;
-    this.context.arc(pixelX, pixelY, 10, 0, Math.PI * 2);
-    this.context.fillStyle = 'green';
-    this.context.fill();
+    for (let i = 0; i < this.particles.length; i++) {
+      this.particles[i].draw(this.canvas, this.context);
+    }
   }
 
   private animateFrame(): void {
@@ -96,7 +75,7 @@ export default class Canvas {
     if (this.animationFrameRequestId != null) {
       cancelAnimationFrame(this.animationFrameRequestId);
     }
-    this.animationState.lastFrameTime = Date.now();
+    this.lastFrameTime = Date.now();
     this.animateFrame();
   }
 }
