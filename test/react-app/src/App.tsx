@@ -22,6 +22,9 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={() => start()}>Start</button>
+        <button onClick={() => stop()}>Stop</button>
+        <button onClick={() => clear()}>Clear</button>
       </header>
     </div>
   );
