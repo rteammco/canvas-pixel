@@ -57,6 +57,7 @@ export default class Canvas {
       return;
     }
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    // Using classic loop intentionally for performance reasons:
     for (let i = 0; i < this.particles.length; i++) {
       this.particles[i].draw(this.canvas, this.context);
     }
