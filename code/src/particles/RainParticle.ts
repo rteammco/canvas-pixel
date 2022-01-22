@@ -7,7 +7,7 @@ export default class RainParticle implements Particle {
   private yPos: number;
 
   constructor() {
-    this.speed = 0.001 + 0.001 * Math.random();
+    this.speed = 0.0002; //+ 0.0001 * Math.random();
     this.dropletSize = 1 + 5 * Math.random();
     this.xPos = Math.random();
     this.yPos = 0;
@@ -18,15 +18,18 @@ export default class RainParticle implements Particle {
   }
 
   public update(timeDelta: number): void {
-    this.yPos += this.speed * timeDelta;
+    this.yPos += this.speed * timeDelta * this.dropletSize;
   }
 
   public draw(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D): void {
+    context.save();
+    context.globalAlpha = 0.5;
     context.beginPath();
     const pixelX = this.xPos * canvas.width;
     const pixelY = this.yPos * canvas.height;
     context.ellipse(pixelX, pixelY, this.dropletSize / 4, this.dropletSize, 0, 0, Math.PI * 2);
     context.fillStyle = 'rgba(0, 40, 255, 0.4)';
     context.fill();
+    context.restore();
   }
 }

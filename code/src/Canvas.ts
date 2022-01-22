@@ -13,9 +13,17 @@ const canvasStyleCSS = `
   z-index: 1000;
 ` as const;
 
+const ghostCanvasStyleCSS = `${canvasStyleCSS}
+  visibility: hidden;
+` as const;
+
 export default class Canvas {
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D | null;
+
+  private ghostCanvas: HTMLCanvasElement;
+  private ghostContext: CanvasRenderingContext2D | null;
+
   private lastFrameTime: number;
   private animationFrameRequestId: number | null;
 
@@ -25,8 +33,13 @@ export default class Canvas {
     this.canvas = document.createElement('canvas');
     this.canvas.style.cssText = canvasStyleCSS;
     document.body.append(this.canvas);
-
     this.context = this.canvas.getContext('2d');
+
+    this.ghostCanvas = document.createElement('canvas');
+    this.ghostCanvas.style.cssText = ghostCanvasStyleCSS;
+    document.body.append(this.ghostCanvas);
+    this.ghostContext = this.ghostCanvas.getContext('2d');
+
     this.lastFrameTime = 0;
     this.animationFrameRequestId = null;
 
@@ -56,7 +69,16 @@ export default class Canvas {
     if (this.context == null) {
       return;
     }
+
+    if (this.ghostContext != null) {
+      this.ghostContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ghostContext.globalAlpha = 0.5;
+      this.ghostContext.drawImage(this.canvas, 0, 0);
+    }
+
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ghostContext != null && this.context.drawImage(this.ghostCanvas, 0, 0);
+
     // Using classic loop intentionally for performance reasons:
     for (let i = 0; i < this.particles.length; i++) {
       this.particles[i].draw(this.canvas, this.context);
@@ -65,14 +87,14 @@ export default class Canvas {
 
   private animateFrame(): void {
     // Changing the canvas size clears out the context, so only do it if necessary:
-    if (
-      this.canvas.width !== document.body.clientWidth ||
-      this.canvas.height !== document.body.clientHeight
-    ) {
+    const { clientWidth, clientHeight } = document.body;
+    if (this.canvas.width !== clientWidth || this.canvas.height !== clientHeight) {
       // TODO: if the animation effect calls for it, possibly copy the existing context to the
       // resized one so we can save animation progress if the window is resized.
-      this.canvas.width = document.body.clientWidth;
-      this.canvas.height = document.body.clientHeight;
+      this.canvas.width = clientWidth;
+      this.canvas.height = clientHeight;
+      this.ghostCanvas.width = clientWidth;
+      this.ghostCanvas.height = clientHeight;
     }
     this.updateAnimationState();
     this.renderFrame();
