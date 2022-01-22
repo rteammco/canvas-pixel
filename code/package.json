@@ -2,17 +2,20 @@
   "name": "canvas-pixel",
   "version": "1.0.0",
   "description": "1. npm init -y 2. ?",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --build",
+    "build": "ttsc -P ./tsconfig.json",
     "build-web": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@zerollup/ts-transform-paths": "^1.7.18",
     "ts-loader": "^9.2.6",
+    "tsconfig-paths": "^3.12.0",
+    "ttypescript": "^1.5.13",
     "typescript": "^4.5.4",
     "webpack-cli": "^4.9.1"
   }

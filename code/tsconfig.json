@@ -4,7 +4,16 @@
     "module": "es6",
     "declaration": true,
     "outDir": "./build",
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"]
+    },
+    "plugins": [
+      {
+        "transform": "@zerollup/ts-transform-paths"
+      }
+    ]
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]
