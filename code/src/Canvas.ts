@@ -64,8 +64,16 @@ export default class Canvas {
   }
 
   private animateFrame(): void {
-    this.canvas.width = document.body.clientWidth;
-    this.canvas.height = document.body.clientHeight;
+    // Changing the canvas size clears out the context, so only do it if necessary:
+    if (
+      this.canvas.width !== document.body.clientWidth ||
+      this.canvas.height !== document.body.clientHeight
+    ) {
+      // TODO: if the animation effect calls for it, possibly copy the existing context to the
+      // resized one so we can save animation progress if the window is resized.
+      this.canvas.width = document.body.clientWidth;
+      this.canvas.height = document.body.clientHeight;
+    }
     this.updateAnimationState();
     this.renderFrame();
     this.animationFrameRequestId = requestAnimationFrame(this.animateFrame.bind(this));
