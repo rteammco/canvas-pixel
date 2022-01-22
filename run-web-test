@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Running test web page (HTML)"
+live-server --entry-file=test/web/index.html
