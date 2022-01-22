@@ -23,7 +23,6 @@ export default class Canvas {
 
   constructor() {
     this.canvas = document.createElement('canvas');
-    // this.canvas.id = CANVAS_ID;
     this.canvas.style.cssText = canvasStyleCSS;
     document.body.append(this.canvas);
 
